@@ -1,3 +1,4 @@
+import os from 'node:os';
 import { defineConfig, devices } from '@playwright/test';
 
 const channel = process.env.PW_CHANNEL ?? (process.platform === 'win32' ? 'msedge' : '');
@@ -10,7 +11,7 @@ const port = process.env.PW_PORT ?? '3100';
 export default defineConfig({
   testDir: 'e2e',
   fullyParallel: true,
-  retries: 0,
+  retries: 1,
   // Only the offline spec needs a real service worker. In every other spec it is blocked, so a test's fresh
   // browser context does not install the worker and run the full cache warm-up against the single server.
   //
@@ -22,14 +23,13 @@ export default defineConfig({
   // system (it is a Chromium browser, so the same engine). On a Windows machine without Edge, set
   // PW_CHANNEL=chrome to use Chrome, or PW_CHANNEL= (empty) to use the downloaded Chromium.
   //
-  // Workers: 4 only when the tests run in an installed, signed browser (Edge or Chrome), 2 otherwise. The downloaded
-  // Chromium stalled page loads more often the more browsers ran at once (4 workers failed 3 of 3 full runs, all
-  // `page.goto` timeouts), while with the signed Edge 3 of 3 full runs passed at 4 workers, about 35% faster.
-  // Later runs at 4 workers still showed an occasional stalled page load even with Edge (about 1 failure in 2
-  // full runs), so the suite stays at 2, where Edge passed 5 of 5 full runs.
-  workers: 2,
+  // Workers: PW_WORKERS when given; else on GitHub the runner's cores (4), and on a desktop a quarter of its cores, at
+  // least 2 and at most 8. Each worker runs its own browser against the one local server. The address is 127.0.0.1,
+  // not localhost: on Windows the name can be looked up on IPv6 first, and page loads stalled at times while several
+  // browsers ran at once. A test that still fails once is tried again once and reported as flaky, never hidden.
+  workers: process.env.PW_WORKERS ? Number(process.env.PW_WORKERS) : process.env.CI ? 4 : Math.min(8, Math.max(2, Math.floor(os.cpus().length / 4))),
   use: {
-    baseURL: `http://localhost:${port}`,
+    baseURL: `http://127.0.0.1:${port}`,
     trace: 'retain-on-failure',
     serviceWorkers: 'block',
     channel: channel || undefined,
@@ -54,7 +54,7 @@ export default defineConfig({
   ],
   webServer: {
     command: exported ? `npm run build && node scripts/serve-export.mjs out-e2e ${port}` : `npm run build && npm run start -- -p ${port}`,
-    url: `http://localhost:${port}`,
+    url: `http://127.0.0.1:${port}`,
     reuseExistingServer: false,
     timeout: 180_000,
     // The test build has its own output folder and never touches the normal build in .next.

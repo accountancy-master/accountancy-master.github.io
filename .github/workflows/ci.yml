@@ -2,7 +2,7 @@ name: Checks
 
 # Everything a change must pass before it is merged: lint, the content checks, the unit tests, a build, the type
 # check, and the browser tests against the static export (what GitHub Pages serves). `npm run check:release` runs the
-# same on your own machine, with the browser tests on the regular build as well.
+# same on your own machine.
 on:
   pull_request:
   push:

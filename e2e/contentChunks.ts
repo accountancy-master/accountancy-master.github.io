@@ -46,7 +46,13 @@ export function contentChunks(request: APIRequestContext): Promise<ContentChunks
     const listed = await request.get(`/_next/static/${buildId}/am-assets.json`);
     if (!listed.ok()) throw new Error('the build has no list of its assets (scripts/list-assets.mjs)');
     const all = ((await listed.json()) as string[]).filter((url) => url.endsWith('.js'));
-    const scripts = new Map(await Promise.all(all.map(async (url) => [url, await (await request.get(url)).text()] as const)));
+    // Eight at a time: all of them at once, in several test workers at once, can run out of local ports on Windows.
+    const scripts = new Map<string, string>();
+    for (let i = 0; i < all.length; i += 8) {
+      const batch = all.slice(i, i + 8);
+      const texts = await Promise.all(batch.map(async (url) => (await request.get(url)).text()));
+      batch.forEach((url, k) => scripts.set(url, texts[k]));
+    }
 
     const topics = PACKS.map((p) => ({ topicId: p.topicId, ids: idsOf(p.topicId) }));
     const topicsNamed = (script: string) => topics.filter((t) => t.ids.some((id) => names(script, id))).map((t) => t.topicId);
