@@ -13,6 +13,23 @@ Found a mistake, or want to help? See [CONTRIBUTING.md](CONTRIBUTING.md), report
 [Discussions](https://github.com/accountancy-master/accountancy-master.github.io/discussions). The code is under the
 MIT licence and the learning content under CC BY-SA 4.0 ([LICENSE](LICENSE), [LICENSE-CONTENT.md](LICENSE-CONTENT.md)).
 
+## Disclaimer
+
+Accountancy Master is an independent, free and open-source practice aid. It is **not affiliated with, endorsed by or
+connected to CBSE or NCERT**; they are named only to say which syllabus the practice follows. Its mock papers, model
+answers and marking points are written for this app and are not official papers or marking schemes.
+
+The content is prepared with care, much of it with the help of AI tools, and checked by automated tests and reviews,
+but it **may contain mistakes**. The current NCERT textbook, the CBSE syllabus and circulars of the year, and your
+teacher are the final word. Everything is provided **"as is", without warranty**, as the licences state; the
+maintainers and contributors are not responsible for any loss that may come from using it, including marks lost in an
+examination. The full text is in the app at [/about](https://accountancy-master.github.io/about).
+
+**Found a mistake?** Report it with the *Mistake in the content* form in
+[Issues](https://github.com/accountancy-master/accountancy-master.github.io/issues/new/choose), with evidence (NCERT
+chapter and page, CBSE circular or marking scheme, or a worked check), or fix it in a pull request with the same
+evidence ([CONTRIBUTING.md](CONTRIBUTING.md)). Every change is reviewed before it is merged.
+
 ## Finding your way
 
 On a laptop or desktop (1024 px and wider) the app uses the whole screen: a sidebar with the course switch, "Go to…" and every page by group (Learn, Practise, You), and a top bar with the exam countdown, XP, streak, the theme toggle and the learner's menu. On a phone it keeps the bottom bar of five items, with a search button in the header. The navigation is one list, in `src/components/shell/navigation.ts`.

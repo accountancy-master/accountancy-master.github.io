@@ -16,7 +16,7 @@ const SCHEMES = ['light', 'dark'] as const;
 // The labs in three groups, so the groups run at once.
 const LAB_GROUPS = [0, 1, 2].map((g) => LABS.filter((l) => l.ready && l.id !== EQUATION_LAB).filter((_, i) => i % 3 === g));
 
-const PAGES = ['/home', '/topics', '/practice', '/practice/cards', '/sheets', '/glossary', '/inside', '/maps', '/playground', '/practice/marathon', '/cases', '/exam', '/mock', '/worksheets', '/mistakes', '/progress', '/settings', '/simulator', '/written'];
+const PAGES = ['/home', '/topics', '/practice', '/practice/cards', '/sheets', '/glossary', '/inside', '/maps', '/playground', '/practice/marathon', '/cases', '/exam', '/mock', '/worksheets', '/mistakes', '/progress', '/settings', '/simulator', '/written', '/about'];
 
 async function scan(page: Page, where: string): Promise<string[]> {
   const result = await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa']).analyze();

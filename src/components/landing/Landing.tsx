@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import type { CSSProperties, ReactNode } from 'react';
 import { PART_B_LABEL } from '@/content/courseOptions';
+import { DISCLAIMER_SHORT } from '@/content/disclaimer';
 import { LANDING_COURSES, LANDING_FULL_PAPER, LANDING_TOTALS } from '@/content/landing.generated';
 import { LABS, labHref } from '@/simulator/labs';
 import { AddingTape, type TapeLine } from './AddingTape';
@@ -489,6 +490,12 @@ function MadeInTheOpen() {
             </li>
           </ul>
           <p className="lp-licence">The code is under the MIT licence and the learning content under CC BY-SA 4.0.</p>
+          <p className="lp-licence" data-testid="landing-disclaimer">
+            {DISCLAIMER_SHORT}{' '}
+            <Link href="/about" data-testid="landing-about">
+              About and disclaimer
+            </Link>
+          </p>
         </div>
         <div className="lp-memo" data-reveal>
           <p id="memo-title" className="lp-memo-head">

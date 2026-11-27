@@ -1,5 +1,6 @@
 'use client';
 
+import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import type { ChangeEvent, FormEvent } from 'react';
@@ -13,6 +14,7 @@ import { Button } from '@/components/ui/Button';
 import { PART_B_COURSE, PART_B_TOPICS, partBOf } from '@/content/courseOptions';
 import { COURSES, findOutline, playableCourses } from '@/content/outline';
 import { CONFIG } from '@/learning/config';
+import { DISCLAIMER_SHORT } from '@/content/disclaimer';
 import { dayKey } from '@/learning/gamification';
 import { challengeTimerOn } from '@/storage/types';
 import { CoursePicker } from './CoursePicker';
@@ -277,6 +279,13 @@ export function SettingsView({ version }: { version: string }) {
           Delete learner
         </Button>
       </section>
+
+      <p data-testid="settings-disclaimer" className="text-sm text-muted">
+        {DISCLAIMER_SHORT}{' '}
+        <Link href="/about" data-testid="settings-about" className="font-bold text-primary-ink underline underline-offset-4">
+          About and disclaimer
+        </Link>
+      </p>
 
       <p data-testid="app-version" className="text-sm text-muted">
         Accountancy Master version {version}
