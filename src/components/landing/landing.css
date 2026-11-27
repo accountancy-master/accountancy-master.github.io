@@ -183,6 +183,27 @@
 
 .lp-brand-name {
   white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* The brand gives way before the Start button does: the bar never runs past a narrow screen, whatever the fonts. */
+.lp-brand {
+  min-width: 0;
+}
+
+.lp-bar-inner > :not(.lp-brand) {
+  flex-shrink: 0;
+}
+
+@media (max-width: 400px) {
+  .lp-bar-inner {
+    gap: 8px;
+  }
+
+  .lp-bar .lp-btn-sm {
+    padding-inline: 12px;
+  }
 }
 
 @media (max-width: 479px) {
