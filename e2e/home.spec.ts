@@ -178,6 +178,8 @@ test('five navigation items fit with readable labels and nothing scrolls sideway
 
   // The narrowest phone the app supports: every item keeps a 44 px target and its whole label.
   await page.setViewportSize({ width: 360, height: 740 });
+  // The phone's bottom bar replaces the sidebar once the app sees the new width: measure after that, not before.
+  await expect(page.locator('nav[aria-label="Main"] a')).toHaveCount(5);
   const fits = await page.evaluate(() => {
     const items = [...document.querySelectorAll<HTMLElement>('nav[aria-label="Main"] a')];
     return items.map((a) => {

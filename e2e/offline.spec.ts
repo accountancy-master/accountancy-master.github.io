@@ -410,3 +410,28 @@ test('the Mistakes screen shows a mistake of a topic that was not opened in this
   await page.getByTestId('mistakes-review').click();
   await expect(page.getByTestId('question')).toHaveAttribute('data-question-id', missed);
 });
+
+// GitHub Pages lets a browser keep any file ten minutes (scripts/serve-export.mjs sends the same headers). The worker
+// asks the server whether a page changed before it answers, so a page changed by a deploy shows on the next load,
+// not ten minutes later. The page here is made for this test alone and removed after it.
+test('a page changed on the server shows on the next load, though the browser may keep it ten minutes', async ({ page }, info) => {
+  test.skip(process.env.PW_EXPORT !== '1', 'the static export is what GitHub Pages serves');
+  const fs = await import('node:fs');
+  const path = await import('node:path');
+  const name = `fresh-${info.project.name}-${Date.now()}.html`;
+  const file = path.join('out-e2e', name);
+  const version = (n: number) => `<!doctype html><html><head><title>v${n}</title></head><body><p id="v">version ${n}</p></body></html>`;
+  try {
+    await createProfile(page, 'Varun');
+    await waitUntilReady(page);
+    fs.writeFileSync(file, version(1));
+    await page.goto(`/${name}`);
+    await expect(page.locator('#v')).toHaveText('version 1');
+    // A deploy: the same address, new content (a new size and time, so a new ETag).
+    fs.writeFileSync(file, version(22));
+    await page.goto(`/${name}`);
+    await expect(page.locator('#v')).toHaveText('version 22');
+  } finally {
+    fs.rmSync(file, { force: true });
+  }
+});
