@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { useEffect, useMemo, useState } from 'react';
 import type { ReactNode } from 'react';
+import { MOCK_PAPER_NOTE } from '@/content/disclaimer';
 import { useMockPapers } from '@/app-state/mockPapers';
 import { useStore } from '@/app-state/StoreProvider';
 import { useProgress } from '@/app-state/useProgress';
@@ -256,6 +257,12 @@ function Instructions({ paper, bank, starting, onStart }: { paper: MockPaper; ba
           ) : null}
           <li>A question you leave unanswered earns no marks. It is not counted as a mistake.</li>
         </ul>
+        <p data-testid="mock-disclaimer" className="text-sm text-muted">
+          {MOCK_PAPER_NOTE}{' '}
+          <Link href="/about" className="font-bold text-primary-ink underline underline-offset-4">
+            About and disclaimer
+          </Link>
+        </p>
       </Card>
 
       <div className="flex flex-col gap-3 sm:flex-row-reverse sm:justify-end">

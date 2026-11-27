@@ -56,6 +56,7 @@ export function appRoutes(): string[] {
     '/sheets',
     '/glossary',
     '/inside',
+    '/about',
     '/maps',
     '/exam',
     '/practical',

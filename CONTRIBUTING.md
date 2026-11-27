@@ -11,6 +11,19 @@ question, fixing a typo, improving a screen or writing new content.
 - **Have an idea or a question?** Start a thread in [Discussions](https://github.com/accountancy-master/accountancy-master.github.io/discussions).
 - **Something does not work?** Open an issue with the *Bug* form: what you did, what you saw, the device and browser.
 
+## Correcting a mistake with evidence
+
+A correction is merged when it shows why the app is wrong. In the issue or the pull request, give:
+
+- **Where:** the page address, the question's id if shown, or the file and line.
+- **What it says and what it should say.**
+- **Evidence:** the NCERT textbook (class, chapter, page), the CBSE syllabus, circular or marking scheme of the year,
+  or a worked check of the figures. "My teacher said so" is welcome as a start, with the reason.
+
+A maintainer reviews it; changes to content must also pass the automated checks. The app's disclaimer
+([/about](https://accountancy-master.github.io/about), and the README) explains that the content is provided as is and
+may contain mistakes: corrections like yours are how it gets better.
+
 ## Working on the code
 
 You need Node.js 22 and Git.
