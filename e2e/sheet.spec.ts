@@ -6,7 +6,7 @@ const SHEET = `/sheet/${JE}`;
 
 test('the sheet needs a learner, like every other page', async ({ page }) => {
   await page.goto(SHEET);
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
   await expect(page.getByTestId('profile-name-input')).toBeVisible();
 });
 

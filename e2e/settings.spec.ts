@@ -105,7 +105,7 @@ test('the profile gate refuses a bad backup with the same messages as Settings',
   fs.writeFileSync(bad, '{"hello":"world"}');
   await page.getByTestId('gate-backup-import').setInputFiles(bad);
   await expect(page.getByTestId('gate-backup-message')).toHaveText('That file is not a valid backup.');
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
 });
 
 test('the header XP updates on Settings itself after the test panel marks levels passed', async ({ page }) => {
@@ -197,7 +197,7 @@ test('deleting a learner needs their exact name and keeps other learners\' progr
   await page.getByTestId('delete-confirm').click();
 
   // Back at the gate, Bina is gone (also after a reload) and Asha still has her progress.
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
   await expect(page.getByTestId('profile-pick-Asha')).toBeVisible();
   await expect(page.getByTestId('profile-pick-Bina')).toHaveCount(0);
   await page.reload();
@@ -215,7 +215,7 @@ test('deleting the only learner returns to an empty gate', async ({ page }) => {
   await page.getByTestId('delete-learner').click();
   await page.getByTestId('delete-confirm-input').fill('Varun');
   await page.getByTestId('delete-confirm').click();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
   await expect(page.getByTestId('profile-pick-Varun')).toHaveCount(0);
   await expect(page.getByTestId('profile-name-input')).toBeVisible();
 });
