@@ -66,7 +66,7 @@ npm run dev                          # development server at http://localhost:30
 npm run build && npm run start       # production build, which is what the offline support needs
 ```
 
-Open the address in a browser, type a name and press "Start learning" (no account is needed; restoring a backup is the quieter way in below it). A Class 12 learner is asked which Part B the school teaches, with "Not sure" to choose later in Settings. Progress is kept in that browser (IndexedDB), per name.
+Open the address in a browser: it opens on the landing page (`/`, built in `src/components/landing/`, its figures counted from the content by `npm run catalogue` into `src/content/landing.generated.ts`). Press "Start learning" for the first screen of the app (`/start`), type a name and press "Start learning" (no account is needed; restoring a backup is the quieter way in below it). On a device that already has a learner, the landing page offers "Continue as" that learner. A Class 12 learner is asked which Part B the school teaches, with "Not sure" to choose later in Settings. Progress is kept in that browser (IndexedDB), per name.
 
 ## Install it on a phone
 

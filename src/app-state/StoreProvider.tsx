@@ -1,5 +1,6 @@
 'use client';
 
+import { usePathname } from 'next/navigation';
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import type { ProgressStore, Profile, ProfilePatch } from '@/storage/types';
@@ -30,6 +31,7 @@ export interface StoreContextValue {
   /** Removes a learner and all their progress; deleting the selected learner also clears the selection. */
   deleteProfile(id: string): Promise<void>;
   refreshProfiles(): Promise<void>;
+  /** False only on the landing page while the store opens (SHOWN_BEFORE_THE_STORE_OPENS): no learner is known yet. */
   ready: boolean;
 }
 
@@ -66,10 +68,27 @@ function saveProfileId(id: string | null): void {
   }
 }
 
+/**
+ * The page that is shown while the store opens instead of "Loading…": the landing page, which is about the app and
+ * needs nothing of the learner's data but whether there is a learner to continue as (`ready` says when it knows). Its
+ * built HTML is then the page itself, not "Loading…", and it stays mounted as the store opens.
+ */
+export const SHOWN_BEFORE_THE_STORE_OPENS = '/';
+
+/** In place of the store until it is open: read by nothing, since there is no learner until then. */
+const NOT_OPEN = new Proxy({} as ProgressStore, {
+  get(_, key) {
+    // Not a thenable, and safe to look at.
+    if (typeof key === 'symbol' || key === 'then') return undefined;
+    throw new Error('The store is not open yet');
+  },
+});
+
 export function StoreProvider({ children }: { children: ReactNode }) {
   const [booted, setBooted] = useState<Booted | null>(null);
   // Kept in a ref so React strict mode's second effect run reuses the same open store.
   const bootRef = useRef<Promise<Booted> | null>(null);
+  const early = usePathname() === SHOWN_BEFORE_THE_STORE_OPENS;
 
   useEffect(() => {
     let cancelled = false;
@@ -82,38 +101,32 @@ export function StoreProvider({ children }: { children: ReactNode }) {
     };
   }, []);
 
-  if (!booted) {
+  if (!booted && !early) {
     return (
       <div data-testid="app-loading" aria-busy="true" className="flex min-h-dvh items-center justify-center">
         <p className="text-base">Loading…</p>
       </div>
     );
   }
-  return (
-    <ReadyProvider
-      store={booted.store}
-      persistent={booted.persistent}
-      initialProfiles={booted.profiles}
-      initialProfileId={booted.profileId}
-    >
-      {children}
-    </ReadyProvider>
-  );
+  return <ReadyProvider booted={booted}>{children}</ReadyProvider>;
 }
 
-function ReadyProvider(props: {
-  store: ProgressStore;
-  persistent: boolean;
-  initialProfiles: Profile[];
-  initialProfileId: string | null;
-  children: ReactNode;
-}) {
-  const { store, persistent, initialProfiles, initialProfileId, children } = props;
-  const [profiles, setProfiles] = useState<Profile[]>(initialProfiles);
-  const [profileId, setProfileId] = useState<string | null>(initialProfileId);
+/** The store once it is open; before that (the landing page only) a store with no learner, and `ready` false. */
+function ReadyProvider({ booted, children }: { booted: Booted | null; children: ReactNode }) {
+  const store = booted?.store ?? NOT_OPEN;
+  const persistent = booted?.persistent ?? false;
+  const [profiles, setProfiles] = useState<Profile[]>(booted?.profiles ?? []);
+  const [profileId, setProfileId] = useState<string | null>(booted?.profileId ?? null);
+  // The store opened while the page was already shown: take what it holds, once.
+  const [seen, setSeen] = useState(booted);
+  if (seen !== booted) {
+    setSeen(booted);
+    setProfiles(booted?.profiles ?? []);
+    setProfileId(booted?.profileId ?? null);
+  }
 
   // Once after boot, if there is any progress worth keeping.
-  const hadProfiles = initialProfiles.length > 0;
+  const hadProfiles = (booted?.profiles.length ?? 0) > 0;
   useEffect(() => {
     if (hadProfiles) void requestPersistence();
   }, [hadProfiles]);
@@ -177,9 +190,9 @@ function ReadyProvider(props: {
       updateProfile,
       deleteProfile,
       refreshProfiles,
-      ready: true,
+      ready: booted !== null,
     }),
-    [store, persistent, profiles, profile, selectProfile, createProfile, updateProfile, deleteProfile, refreshProfiles],
+    [store, persistent, profiles, profile, selectProfile, createProfile, updateProfile, deleteProfile, refreshProfiles, booted],
   );
 
   return <StoreContext.Provider value={value}>{children}</StoreContext.Provider>;
