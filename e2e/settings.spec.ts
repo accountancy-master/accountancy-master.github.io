@@ -91,7 +91,7 @@ test('a backup can be restored from the profile gate in a fresh browser', async 
 
   const fresh = await browser.newContext();
   const gate = await fresh.newPage();
-  await gate.goto('/');
+  await gate.goto('/start');
   await gate.getByTestId('gate-backup-import').setInputFiles(file);
   await expect(gate).toHaveURL(/\/home$/);
   await expect(gate.getByTestId('profile-name')).toHaveText('Varun');
@@ -100,12 +100,12 @@ test('a backup can be restored from the profile gate in a fresh browser', async 
 });
 
 test('the profile gate refuses a bad backup with the same messages as Settings', async ({ page }, testInfo) => {
-  await page.goto('/');
+  await page.goto('/start');
   const bad = testInfo.outputPath('bad-gate.json');
   fs.writeFileSync(bad, '{"hello":"world"}');
   await page.getByTestId('gate-backup-import').setInputFiles(bad);
   await expect(page.getByTestId('gate-backup-message')).toHaveText('That file is not a valid backup.');
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
 });
 
 test('the header XP updates on Settings itself after the test panel marks levels passed', async ({ page }) => {
@@ -157,7 +157,7 @@ test('a learner can be renamed; the header and the gate show the new name', asyn
   await expect(page.getByTestId('profile-name')).toHaveText('Varun K');
   await expect(page.getByTestId('settings-profile-name')).toHaveText('Varun K');
 
-  await page.goto('/');
+  await page.goto('/start');
   await expect(page.getByTestId('profile-pick-Varun K')).toBeVisible();
   await expect(page.getByTestId('profile-pick-Varun')).toHaveCount(0);
 });
@@ -197,7 +197,7 @@ test('deleting a learner needs their exact name and keeps other learners\' progr
   await page.getByTestId('delete-confirm').click();
 
   // Back at the gate, Bina is gone (also after a reload) and Asha still has her progress.
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
   await expect(page.getByTestId('profile-pick-Asha')).toBeVisible();
   await expect(page.getByTestId('profile-pick-Bina')).toHaveCount(0);
   await page.reload();
@@ -215,7 +215,7 @@ test('deleting the only learner returns to an empty gate', async ({ page }) => {
   await page.getByTestId('delete-learner').click();
   await page.getByTestId('delete-confirm-input').fill('Varun');
   await page.getByTestId('delete-confirm').click();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
   await expect(page.getByTestId('profile-pick-Varun')).toHaveCount(0);
   await expect(page.getByTestId('profile-name-input')).toBeVisible();
 });

@@ -29,7 +29,9 @@ const OFFLINE_PAGE = '/offline.html';
  */
 export function appRoutes(): string[] {
   return [
+    // The landing page, and the first screen of the app (who is learning).
     '/',
+    '/start',
     '/topics',
     '/progress',
     '/settings',

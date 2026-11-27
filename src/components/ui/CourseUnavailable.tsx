@@ -18,7 +18,7 @@ export function CourseUnavailable() {
         data-testid="course-unavailable-switch"
         onClick={() => {
           selectProfile(null);
-          router.push('/');
+          router.push('/start');
         }}
       >
         Switch learner

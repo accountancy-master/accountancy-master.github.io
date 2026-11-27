@@ -49,7 +49,7 @@ export function Shell({ children, width = 'narrow', mode = 'page' }: { children:
   const opener = useRef<HTMLElement | null>(null);
 
   useEffect(() => {
-    if (!profile) router.replace('/');
+    if (!profile) router.replace('/start');
   }, [profile, router]);
 
   const api = useMemo<ShellApi>(

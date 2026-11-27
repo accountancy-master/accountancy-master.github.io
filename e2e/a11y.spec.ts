@@ -110,3 +110,27 @@ for (const scheme of SCHEMES) {
     });
   }
 }
+
+// The landing page is light whatever the theme, so it is checked once; the first screen of the app in both themes.
+test('the landing page has no serious accessibility violation, for a new visitor and for a returning learner', async ({ page }) => {
+  test.setTimeout(2 * 60_000);
+  await page.emulateMedia({ colorScheme: 'light' });
+  await page.goto('/');
+  await expect(page.getByTestId('landing-start-hero')).toBeVisible();
+  const found = await scan(page, 'light / (new visitor)');
+  await createProfile(page, 'Varun');
+  await page.goto('/');
+  await expect(page.getByTestId('landing-continue-hero')).toBeVisible();
+  found.push(...(await scan(page, 'light / (returning learner)')));
+  expect(found, found.join('\n')).toEqual([]);
+});
+
+for (const scheme of SCHEMES) {
+  test(`the first screen (/start) has no serious accessibility violation (${scheme} theme)`, async ({ page }) => {
+    await page.emulateMedia({ colorScheme: scheme });
+    await page.goto('/start');
+    await expect(page.getByTestId('profile-name-input')).toBeVisible();
+    const found = await scan(page, `${scheme} /start`);
+    expect(found, found.join('\n')).toEqual([]);
+  });
+}

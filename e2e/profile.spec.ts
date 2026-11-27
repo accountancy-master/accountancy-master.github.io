@@ -2,7 +2,7 @@ import { expect, test } from '@playwright/test';
 import { CLASS12, CLASS12_CAS_PACKS, createProfile, seedPassedLevels } from './helpers';
 
 test('a learner creates a profile and lands on Home', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/start');
   await expect(page.getByTestId('app-title')).toHaveText('Accountancy Master');
   await page.getByTestId('profile-create').click();
   await expect(page.getByTestId('profile-error')).toHaveText('Enter a name');
@@ -16,14 +16,14 @@ test('the profile is remembered and can be picked again', async ({ page }) => {
   await createProfile(page, 'Varun');
   await page.reload();
   await expect(page.getByTestId('profile-name')).toHaveText('Varun');
-  await page.goto('/');
+  await page.goto('/start');
   await page.getByTestId('profile-pick-Varun').click();
   await expect(page).toHaveURL(/\/home$/);
 });
 
 test('pages need a profile', async ({ page }) => {
   await page.goto('/topics');
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
 });
 
 test('navigation is reachable and nothing scrolls sideways', async ({ page }) => {
@@ -42,7 +42,7 @@ test("a new learner never shows the previous learner's XP", async ({ page }) => 
 
   // Switch through the app (no page reload), so the shared progress provider stays mounted.
   await page.getByTestId('switch-profile').click();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
   // Records every XP text the header ever shows from here on, however briefly.
   await page.evaluate(() => {
     const seen: string[] = [];
@@ -69,7 +69,7 @@ test("a new learner never shows the previous learner's XP", async ({ page }) => 
 });
 
 test('the first screen makes starting the main action: no account needed, and restoring a backup comes after', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/start');
   const start = page.getByTestId('profile-create');
   await expect(start).toHaveText('Start learning');
   await expect(page.getByTestId('profile-no-account')).toHaveText('No account needed. Your progress stays on this device.');
@@ -83,7 +83,7 @@ test('the first screen makes starting the main action: no account needed, and re
 });
 
 test('a Class 12 learner is asked which Part B the school teaches, and the choice is kept', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/start');
   test.skip((await page.getByTestId(`course-${CLASS12}`).count()) === 0 || CLASS12_CAS_PACKS.length === 0, 'needs Class 12 with both choices of Part B');
   // Not asked for Class 11.
   await expect(page.getByTestId('gate-part-b')).toHaveCount(0);
@@ -103,7 +103,7 @@ test('a Class 12 learner is asked which Part B the school teaches, and the choic
 });
 
 test('"Not sure" keeps the usual Part B, to be chosen later in Settings', async ({ page }) => {
-  await page.goto('/');
+  await page.goto('/start');
   test.skip((await page.getByTestId(`course-${CLASS12}`).count()) === 0, 'needs Class 12');
   await page.getByTestId(`course-${CLASS12}`).click();
   test.skip((await page.getByTestId('gate-part-b').count()) === 0, 'needs both choices of Part B');

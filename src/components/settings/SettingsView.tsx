@@ -111,13 +111,13 @@ export function SettingsView({ version }: { version: string }) {
 
   function switchLearner() {
     selectProfile(null);
-    router.push('/');
+    router.push('/start');
   }
 
   async function removeLearner() {
     // Rejects on failure so the dialog can say so and stay open.
     await deleteProfile(id);
-    router.push('/');
+    router.push('/start');
   }
 
   return (

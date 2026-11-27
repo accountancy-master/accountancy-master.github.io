@@ -35,7 +35,7 @@ async function answerAndContinue(page: Page, count: number) {
 test('hand-over screenshots', async ({ page }, testInfo) => {
   test.setTimeout(6 * 60_000);
 
-  await page.goto('/');
+  await page.goto('/start');
   await expect(page.getByTestId('profile-name-input')).toBeVisible();
   await shot(page, testInfo, 'profile-gate');
 

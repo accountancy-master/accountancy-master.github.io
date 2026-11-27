@@ -49,7 +49,7 @@ export function PlaygroundPlayer({ play, filters, backHref }: { play: Playground
   const { progress, status, reload } = useProgress();
 
   useEffect(() => {
-    if (!profile) router.replace('/');
+    if (!profile) router.replace('/start');
   }, [profile, router]);
 
   const patterns = useMemo(() => (profile ? patternsOf(play, filters, profile.courseId, choiceOf(profile)) : []), [play, filters, profile]);

@@ -19,6 +19,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
+  // The address the site is served from: what links shared from it (and its picture, opengraph-image.png) point to.
+  metadataBase: new URL("https://accountancy-master.github.io"),
   title: "Accountancy Master",
   description: APP_DESCRIPTION,
 };

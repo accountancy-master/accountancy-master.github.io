@@ -13,6 +13,8 @@ test('the manifest is served', async ({ request }) => {
   const manifest = await res.json();
   expect(manifest.short_name).toBe('Accountancy');
   expect(manifest.display).toBe('standalone');
+  // An installed app opens on the first screen of the app, not on the landing page.
+  expect(manifest.start_url).toBe('/start');
   expect(manifest.icons.length).toBeGreaterThanOrEqual(3);
   for (const icon of manifest.icons) expect((await request.get(icon.src)).ok()).toBe(true);
 });
@@ -28,6 +30,13 @@ test('after one visit the app works with no network', async ({ page, context }) 
 
   await page.reload();
   await expect(page.getByTestId('profile-name')).toHaveText('Varun');
+
+  // The landing page and the first screen are stored too.
+  await page.goto('/');
+  await expect(page.getByTestId('landing-title')).toBeVisible();
+  await expect(page.getByTestId('landing-continue-hero')).toContainText('Varun');
+  await page.goto('/start');
+  await expect(page.getByTestId('profile-pick-Varun')).toBeVisible();
 
   await page.goto('/topics');
   await page.getByTestId(`topic-card-${JE}`).click();
@@ -234,6 +243,7 @@ test('the warm-up stores every page of every topic, from the generated catalogue
   const all = new Set(Object.values(await cacheContents(page)).flat());
   const expected = [
     '/',
+    '/start',
     '/topics',
     '/practice',
     '/practice/topic',

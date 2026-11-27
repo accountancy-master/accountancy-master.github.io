@@ -98,7 +98,7 @@ export function MarathonPlayer({ scope }: { scope: string }) {
   const [run, setRun] = useState(0);
 
   useEffect(() => {
-    if (!profile) router.replace('/');
+    if (!profile) router.replace('/start');
   }, [profile, router]);
 
   if (!profile) return <div aria-busy="true" data-testid="player-redirecting" className="min-h-dvh" />;

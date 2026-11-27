@@ -52,7 +52,7 @@ async function chooseCourse(page: Page, courseId: string) {
 
 test('while Class 12 has nothing to play, a new learner is offered no course and meets nothing of Class 12', async ({ page }) => {
   test.skip(CLASS12_LIVE, 'Class 12 has topics that can be played: a learner is offered the choice now');
-  await page.goto('/');
+  await page.goto('/start');
   await expect(page.getByTestId('app-tagline')).toHaveText('Learn Class 11 Accountancy by practising it.');
   await expect(page.getByTestId('profile-course')).toHaveCount(0);
   await createProfile(page, 'Varun');
@@ -84,7 +84,7 @@ test('while Class 12 has nothing to play, a new learner is offered no course and
 
 test('a learner chooses Class 12 when they are made, and sees its topics and no others', async ({ page }) => {
   await withClass12Sample(page);
-  await page.goto('/');
+  await page.goto('/start');
   // Class 12 has something to play, so the course is a choice: Class 11 unless the learner says otherwise.
   await expect(page.getByTestId('profile-course')).toBeVisible();
   await expect(page.getByTestId(`course-${CLASS11}`)).toHaveAttribute('aria-pressed', 'true');
