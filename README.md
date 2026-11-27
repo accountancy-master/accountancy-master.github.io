@@ -82,7 +82,7 @@ The app is an installable web app that works offline after the first visit. On t
 npm run check         # lint, content validation, unit tests, production build
 npm run test:e2e      # Playwright tests at phone size (Pixel 7) and laptop size (1280 x 800)
 npm run check:full    # both of the above
-npm run check:release # everything, on both builds (about an hour)
+npm run check:release # everything GitHub checks on a pull request, quick checks side by side (about 10 minutes)
 npm run measure       # builds the static export and prints what each page downloads, and each topic's content
 ```
 

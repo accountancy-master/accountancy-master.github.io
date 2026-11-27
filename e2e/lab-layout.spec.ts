@@ -33,14 +33,17 @@ async function stepToEnd(page: Page, prefix: string) {
   for (let i = 0; i < 80 && (await step.count()) > 0 && (await step.first().isEnabled()); i++) await step.first().click();
 }
 
-for (const width of WIDTHS) {
-  test(`no lab overflows at ${width} px, in any mode`, async ({ page }, info) => {
+// The labs in three groups, so the groups of each width run at once (one long test holds one worker).
+const GROUPS = [0, 1, 2].map((g) => LABS_SHOWN.filter((_, i) => i % 3 === g));
+
+for (const width of WIDTHS) for (const [g, labs] of GROUPS.entries()) {
+  test(`no lab overflows at ${width} px, in any mode (group ${g + 1} of 3: ${labs.map((l) => l.id).join(', ')})`, async ({ page }, info) => {
     test.skip(info.project.name !== 'laptop', 'the widths are set here, once');
     test.setTimeout(8 * 60_000);
     await page.setViewportSize({ width, height: 900 });
     await createProfile(page, 'Varun', { keepDeviceDefaults: true });
     const found: string[] = [];
-    for (const lab of LABS_SHOWN) {
+    for (const lab of labs) {
       const prefix = `lab-${lab.id}`;
       await page.goto(`/simulator?lab=${lab.id}`);
       await expect(page.getByTestId(prefix)).toBeVisible({ timeout: 60_000 });

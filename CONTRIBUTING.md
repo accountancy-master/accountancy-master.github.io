@@ -37,7 +37,7 @@ changing Next.js code: this version of Next.js differs from older guides.
 ```bash
 npm run check          # lint, content validation, unit tests, production build
 npm run test:e2e       # browser tests at phone and laptop size (Playwright)
-npm run check:release  # everything, including the browser tests on both builds (about an hour)
+npm run check:release  # everything GitHub checks on a pull request (about 10 minutes)
 ```
 
 For a small change, `npm run check` and the browser tests of the screens you touched are enough before you open the
