@@ -91,7 +91,7 @@ test('a backup can be restored from the profile gate in a fresh browser', async 
 
   const fresh = await browser.newContext();
   const gate = await fresh.newPage();
-  await gate.goto('/');
+  await gate.goto('/start');
   await gate.getByTestId('gate-backup-import').setInputFiles(file);
   await expect(gate).toHaveURL(/\/home$/);
   await expect(gate.getByTestId('profile-name')).toHaveText('Varun');
@@ -100,7 +100,7 @@ test('a backup can be restored from the profile gate in a fresh browser', async 
 });
 
 test('the profile gate refuses a bad backup with the same messages as Settings', async ({ page }, testInfo) => {
-  await page.goto('/');
+  await page.goto('/start');
   const bad = testInfo.outputPath('bad-gate.json');
   fs.writeFileSync(bad, '{"hello":"world"}');
   await page.getByTestId('gate-backup-import').setInputFiles(bad);
@@ -157,7 +157,7 @@ test('a learner can be renamed; the header and the gate show the new name', asyn
   await expect(page.getByTestId('profile-name')).toHaveText('Varun K');
   await expect(page.getByTestId('settings-profile-name')).toHaveText('Varun K');
 
-  await page.goto('/');
+  await page.goto('/start');
   await expect(page.getByTestId('profile-pick-Varun K')).toBeVisible();
   await expect(page.getByTestId('profile-pick-Varun')).toHaveCount(0);
 });

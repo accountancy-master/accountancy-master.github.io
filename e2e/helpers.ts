@@ -102,7 +102,7 @@ export async function createProfile(page: Page, name: string, opts: { keepDevice
       }
     }, opts.unlockAll ? '1' : '0');
   }
-  await page.goto('/');
+  await page.goto('/start');
   await page.getByTestId('profile-name-input').fill(name);
   if (opts.courseId) await page.getByTestId(`course-${opts.courseId}`).click();
   await page.getByTestId('profile-create').click();

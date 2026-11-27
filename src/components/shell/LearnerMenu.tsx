@@ -59,10 +59,10 @@ export function LearnerMenu() {
   function switchLearner() {
     setOpen(false);
     // A play screen is asked first; nothing else changes until the learner leaves it.
-    if (shell) shell.leave({ href: '/', before: () => selectProfile(null) });
+    if (shell) shell.leave({ href: '/start', before: () => selectProfile(null) });
     else {
       selectProfile(null);
-      router.push('/');
+      router.push('/start');
     }
   }
 

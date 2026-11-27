@@ -39,7 +39,7 @@ export function MockPaperPlayer() {
   useShellTrail([{ label: 'Mock papers', href: HUB_HREF }, { label: known && profile ? paperTitle(known, bankOfPaper(profile.courseId, known)) : 'Mock paper' }]);
 
   useEffect(() => {
-    if (!profile) router.replace('/');
+    if (!profile) router.replace('/start');
   }, [profile, router]);
 
   if (!profile) return <div aria-busy="true" data-testid="player-redirecting" className="min-h-dvh" />;

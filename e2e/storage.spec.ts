@@ -25,7 +25,7 @@ const calls = (page: Page) => page.evaluate(() => (window as Counting).__persist
 
 test('the browser is asked to keep the data once a profile exists, and Settings says what it answered', async ({ page }) => {
   await fakeStorage(page, true);
-  await page.goto('/');
+  await page.goto('/start');
   // No profile yet, nothing worth keeping.
   await expect(page.getByTestId('profile-name-input')).toBeVisible();
   expect(await calls(page)).toBe(0);

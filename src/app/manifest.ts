@@ -10,7 +10,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: 'Accountancy Master',
     short_name: 'Accountancy',
     description: APP_DESCRIPTION,
-    start_url: '/',
+    start_url: '/start',
     display: 'standalone',
     background_color: '#f3f7f4',
     theme_color: '#047857',

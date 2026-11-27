@@ -45,7 +45,7 @@ test('at 1280 px a sidebar with every group of the navigation, and a top bar wit
   await expect(page.getByTestId('learner-menu')).toBeFocused();
   await page.getByTestId('learner-menu').click();
   await page.getByTestId('menu-switch-learner').click();
-  await expect(page).toHaveURL(/\/$/);
+  await expect(page).toHaveURL(/\/start$/);
   await expect(page.getByTestId('profile-pick-Varun')).toBeVisible();
 });
 
