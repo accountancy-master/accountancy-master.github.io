@@ -1,0 +1,34 @@
+name: Mistake in the content
+description: A wrong answer, a wrong explanation, a confusing question, or something outside the CBSE syllabus
+labels: [content]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you! Corrections from students and teachers make this better for everyone.
+  - type: dropdown
+    id: class
+    attributes:
+      label: Class
+      options: [Class 11, Class 12]
+    validations:
+      required: true
+  - type: input
+    id: topic
+    attributes:
+      label: Topic
+      placeholder: e.g. Bank Reconciliation Statement
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Page address or question id
+      description: Copy the page address from the browser, or the question's id if you see one.
+      placeholder: e.g. https://accountancy-master.github.io/written/bank-reconciliation
+  - type: textarea
+    id: wrong
+    attributes:
+      label: What is wrong
+      description: Quote what the app says, and what it should say. A reference (NCERT chapter, CBSE circular) helps.
+    validations:
+      required: true

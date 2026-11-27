@@ -1,0 +1,55 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#047857">
+<title>Offline - Accountancy</title>
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; }
+  body {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 1.5rem;
+    background: #f3f7f4;
+    color: #1c2b25;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    line-height: 1.5;
+  }
+  main {
+    width: 100%;
+    max-width: 26rem;
+    padding: 1.5rem;
+    background: #ffffff;
+    border: 2px solid #dbe5df;
+    border-radius: 1rem;
+    text-align: center;
+  }
+  h1 { margin: 0 0 0.5rem; font-size: 1.5rem; font-weight: 800; color: #064e3b; }
+  p { margin: 0 0 1.25rem; font-size: 1rem; color: #5a6b63; }
+  a {
+    display: inline-block;
+    min-height: 3rem;
+    padding: 0.75rem 1.5rem;
+    background: #047857;
+    border-radius: 0.75rem;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+  a:hover { background: #064e3b; }
+  a:focus-visible { outline: 3px solid #1d4ed8; outline-offset: 2px; }
+</style>
+</head>
+<body>
+<main data-testid="offline-page">
+  <h1>You're offline</h1>
+  <p>You're offline and this page hasn't been saved yet. Pages you have already opened still work.</p>
+  <a href="/home" data-testid="offline-home">Go to home</a>
+</main>
+</body>
+</html>

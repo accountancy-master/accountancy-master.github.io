@@ -1,0 +1,283 @@
+@import "tailwindcss";
+
+/*
+ * Design tokens. Every colour, radius and shadow used by the screens lives here and is reached
+ * through Tailwind classes (bg-primary, text-ink, rounded-card, shadow-card ...). Components never carry hex values.
+ * The light theme is defined here; the dark theme redefines the same names below (see "Dark theme"), so every
+ * class works in both.
+ */
+@theme {
+  /* Page and surfaces: a soft green-tinted page, white cards with a light border and a gentle shadow. */
+  --color-canvas: #f2f7f4;
+  --color-surface: #ffffff;
+  /* A surface set into another one: a table header, a well, a muted row. */
+  --color-sunken: #f6faf7;
+  --color-ink: #1c2b25;
+  --color-muted: #55665e;
+  --color-edge: #dde7e1;
+  --color-edge-deep: #bccbc3;
+
+  /* Primary: emerald */
+  --color-primary: #047857;
+  --color-primary-deep: #064e3b;
+  --color-primary-soft: #d9f5e8;
+  --color-primary-ink: #065f46;
+
+  /* Accent: amber, for XP and streaks. Words on an amber fill are dark in both themes (on-accent). */
+  --color-accent: #f59e0b;
+  --color-accent-deep: #b45309;
+  --color-accent-soft: #fef3c7;
+  --color-accent-ink: #7c2d12;
+  --color-on-accent: #1c2b25;
+
+  /* Errors only. danger is a fill (white words on it), danger-ink is the colour of an error's words on the page. */
+  --color-danger: #c62828;
+  --color-danger-deep: #8e1b1b;
+  --color-danger-soft: #fde8e8;
+  --color-danger-ink: #c62828;
+
+  --color-focus: #1d4ed8;
+
+  /*
+   * Hues of tiles: the thin top edge of a tile and the tint behind its icon say what kind of thing it is (practice,
+   * revision, papers ...). Each has a strong colour (the edge, an icon) and a soft one (the tint behind it).
+   * The strong colours are dark enough for small text on white and on their own soft tint (4.5:1, WCAG AA), and
+   * for white text on them. Words drawn on a strong hue fill take on-hue: white here, dark in the dark theme, whose
+   * strong hues are light.
+   */
+  --color-hue-green: #047857;
+  --color-hue-green-soft: #dcf5ea;
+  --color-hue-teal: #0f766e;
+  --color-hue-teal-soft: #d5f3ef;
+  --color-hue-blue: #1d4ed8;
+  --color-hue-blue-soft: #dfe9fd;
+  --color-hue-violet: #7c3aed;
+  --color-hue-violet-soft: #ece4fd;
+  --color-hue-rose: #be123c;
+  --color-hue-rose-soft: #fde2e8;
+  --color-hue-amber: #92400e;
+  --color-hue-amber-soft: #fdefd3;
+  --color-hue-orange: #9a3412;
+  --color-hue-orange-soft: #fde5d6;
+  --color-hue-sky: #0369a1;
+  --color-hue-sky-soft: #dbeffa;
+  --color-on-hue: #ffffff;
+
+  --radius-control: 0.75rem;
+  --radius-card: 1rem;
+  --radius-panel: 1.25rem;
+
+  --shadow-card: 0 1px 2px rgb(20 48 36 / 0.05), 0 6px 18px -8px rgb(20 48 36 / 0.12);
+  --shadow-card-hover: 0 2px 4px rgb(20 48 36 / 0.06), 0 12px 28px -10px rgb(20 48 36 / 0.2);
+  --shadow-pop: 0 24px 60px -16px rgb(10 30 22 / 0.45);
+
+  --font-sans: var(--font-geist-sans), system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+}
+
+/*
+ * Dark theme. The learner's choice is kept on the device and set on <html> as data-theme before the page paints
+ * (see ThemeScript); with no choice the system's preference is followed. The two blocks are the same values.
+ */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --color-canvas: #0d1512;
+  --color-surface: #15201b;
+  --color-sunken: #111a16;
+  --color-ink: #e4eee9;
+  --color-muted: #9fb3a9;
+  --color-edge: #26352e;
+  --color-edge-deep: #3b4d44;
+  --color-primary: #04805c;
+  --color-primary-deep: #065f46;
+  --color-primary-soft: #0f3b2d;
+  --color-primary-ink: #7ee6bd;
+  --color-accent: #f59e0b;
+  --color-accent-deep: #b45309;
+  --color-accent-soft: #3d2c09;
+  --color-accent-ink: #fcd77a;
+  --color-danger: #d32f2f;
+  --color-danger-deep: #fca5a5;
+  --color-danger-soft: #3b1515;
+  --color-danger-ink: #ef5350;
+  --color-focus: #7cb3ff;
+  --color-hue-green: #34d399;
+  --color-hue-green-soft: #11372a;
+  --color-hue-teal: #2dd4bf;
+  --color-hue-teal-soft: #0f3532;
+  --color-hue-blue: #7aa7ff;
+  --color-hue-blue-soft: #18284a;
+  --color-hue-violet: #b69bff;
+  --color-hue-violet-soft: #2a1f4a;
+  --color-hue-rose: #fb7192;
+  --color-hue-rose-soft: #431a26;
+  --color-hue-amber: #fbbf24;
+  --color-hue-amber-soft: #3d2c09;
+  --color-hue-orange: #fb923c;
+  --color-hue-orange-soft: #42230f;
+  --color-hue-sky: #5cc4f5;
+  --color-hue-sky-soft: #10304a;
+  --color-on-hue: #0d1512;
+  --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 18px -8px rgb(0 0 0 / 0.5);
+  --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.35), 0 12px 28px -10px rgb(0 0 0 / 0.6);
+  --shadow-pop: 0 24px 60px -16px rgb(0 0 0 / 0.7);
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --color-canvas: #0d1512;
+    --color-surface: #15201b;
+    --color-sunken: #111a16;
+    --color-ink: #e4eee9;
+    --color-muted: #9fb3a9;
+    --color-edge: #26352e;
+    --color-edge-deep: #3b4d44;
+    --color-primary: #04805c;
+    --color-primary-deep: #065f46;
+    --color-primary-soft: #0f3b2d;
+    --color-primary-ink: #7ee6bd;
+    --color-accent: #f59e0b;
+    --color-accent-deep: #b45309;
+    --color-accent-soft: #3d2c09;
+    --color-accent-ink: #fcd77a;
+    --color-danger: #d32f2f;
+    --color-danger-deep: #fca5a5;
+    --color-danger-soft: #3b1515;
+    --color-danger-ink: #ef5350;
+    --color-focus: #7cb3ff;
+    --color-hue-green: #34d399;
+    --color-hue-green-soft: #11372a;
+    --color-hue-teal: #2dd4bf;
+    --color-hue-teal-soft: #0f3532;
+    --color-hue-blue: #7aa7ff;
+    --color-hue-blue-soft: #18284a;
+    --color-hue-violet: #b69bff;
+    --color-hue-violet-soft: #2a1f4a;
+    --color-hue-rose: #fb7192;
+    --color-hue-rose-soft: #431a26;
+    --color-hue-amber: #fbbf24;
+    --color-hue-amber-soft: #3d2c09;
+    --color-hue-orange: #fb923c;
+    --color-hue-orange-soft: #42230f;
+    --color-hue-sky: #5cc4f5;
+    --color-hue-sky-soft: #10304a;
+    --color-on-hue: #0d1512;
+    --shadow-card: 0 1px 2px rgb(0 0 0 / 0.3), 0 6px 18px -8px rgb(0 0 0 / 0.5);
+    --shadow-card-hover: 0 2px 4px rgb(0 0 0 / 0.35), 0 12px 28px -10px rgb(0 0 0 / 0.6);
+    --shadow-pop: 0 24px 60px -16px rgb(0 0 0 / 0.7);
+  }
+}
+
+:root {
+  color-scheme: light;
+}
+
+html {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-size: 16px;
+}
+
+body {
+  background: var(--color-canvas);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  line-height: 1.5;
+  overflow-x: hidden;
+}
+
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+    animation: none !important;
+  }
+}
+
+/*
+ * Printing. Ink-saving black on white: the page and anything marked print-plain lose their colours and backgrounds,
+ * and anything marked avoid-break is kept whole on one page.
+ */
+@page {
+  margin: 14mm;
+}
+
+@media print {
+  html,
+  body {
+    background: white;
+    color: black;
+  }
+
+  .print-plain,
+  .print-plain * {
+    color: black !important;
+    background: transparent !important;
+    box-shadow: none !important;
+  }
+
+  .print-plain [data-testid="sheet-card"] {
+    border: 1px solid black;
+    border-radius: 0;
+  }
+
+  .avoid-break {
+    break-inside: avoid;
+  }
+
+  /*
+   * A mind map (components/maps/MindMap.tsx) prints whole, as it is folded, on one page: as wide as the page and no
+   * taller than it, in the light theme's colours whatever the theme on screen.
+   */
+  .map-print {
+    max-height: 92vh;
+    break-inside: avoid;
+    --color-surface: #ffffff;
+    --color-sunken: #f6faf7;
+    --color-ink: #1c2b25;
+    --color-muted: #55665e;
+    --color-edge: #dde7e1;
+    --color-edge-deep: #bccbc3;
+    --color-primary: #047857;
+    --color-primary-soft: #d9f5e8;
+    --color-primary-ink: #065f46;
+    --color-hue-green: #047857;
+    --color-hue-sky: #0369a1;
+    --color-hue-amber: #92400e;
+    --color-hue-rose: #be123c;
+    --color-hue-violet: #7c3aed;
+  }
+}
+
+/*
+ * The simulator (components/simulator). A coin is drawn once here and moved by transform alone; a deduction from a
+ * tank (drawings, a loss, a provision) is hatched, so that it is told apart without its colour.
+ */
+.sim-coin {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 18px;
+  height: 18px;
+  margin: -9px 0 0 -9px;
+  border-radius: 9999px;
+  background: radial-gradient(circle at 35% 30%, #fde68a 0 30%, #f59e0b 55%, #b45309 100%);
+  box-shadow: 0 1px 2px rgb(0 0 0 / 0.35);
+  will-change: transform, opacity;
+}
+
+.sim-deduction {
+  /* The stripes are softened by mixing, not by opacity, which would fade any words drawn on the deduction too. */
+  background: repeating-linear-gradient(135deg, color-mix(in srgb, var(--color-danger) 85%, transparent) 0 3px, transparent 3px 8px), var(--color-danger-soft);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sim-coin {
+    display: none;
+  }
+}

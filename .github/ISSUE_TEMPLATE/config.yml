@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Ideas and questions
+    url: https://github.com/accountancy-master/accountancy-master.github.io/discussions
+    about: Suggest a feature or new content, or ask how something works, in Discussions.
+  - name: Report a security problem privately
+    url: https://github.com/accountancy-master/accountancy-master.github.io/security/advisories/new
+    about: Please do not open a public issue for a security problem.

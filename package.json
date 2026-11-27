@@ -1,0 +1,54 @@
+{
+  "name": "accountancy-master",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "homepage": "https://accountancy-master.github.io",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/accountancy-master/accountancy-master.github.io.git"
+  },
+  "scripts": {
+    "predev": "npm run catalogue",
+    "dev": "next dev",
+    "catalogue": "tsx scripts/generate-catalogue.ts",
+    "prebuild": "npm run catalogue",
+    "build": "next build",
+    "postbuild": "node scripts/list-assets.mjs",
+    "start": "next start",
+    "lint": "eslint",
+    "pretest": "npm run catalogue",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "validate-content": "tsx scripts/validate-content.ts",
+    "content:report": "tsx scripts/content-report.ts",
+    "content:hash": "tsx scripts/content-hash.ts",
+    "measure": "tsx scripts/measure-routes.ts",
+    "check": "npm run lint && npm run validate-content && npm run test && npm run build",
+    "test:e2e": "playwright test",
+    "check:full": "npm run check && npm run test:e2e",
+    "check:release": "node scripts/check-release.mjs"
+  },
+  "dependencies": {
+    "dexie": "^4.4.6",
+    "next": "16.3.8",
+    "react": "19.2.8",
+    "react-dom": "19.2.8"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
+    "@playwright/test": "^1.63.0",
+    "@tailwindcss/postcss": "^4",
+    "@types/node": "^22.20.5",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.8",
+    "fake-indexeddb": "^6.2.5",
+    "sharp": "^0.35.5",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.15",
+    "typescript": "^5",
+    "vitest": "^5.0.3"
+  }
+}

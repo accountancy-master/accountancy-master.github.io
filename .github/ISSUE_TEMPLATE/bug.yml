@@ -1,0 +1,23 @@
+name: Bug
+description: Something in the app does not work
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected, and what you saw instead. A screenshot helps.
+    validations:
+      required: true
+  - type: input
+    id: where
+    attributes:
+      label: Page address
+      placeholder: https://accountancy-master.github.io/...
+  - type: input
+    id: device
+    attributes:
+      label: Device and browser
+      placeholder: e.g. Android phone, Chrome; or Windows laptop, Edge
+    validations:
+      required: true
