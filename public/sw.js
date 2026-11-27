@@ -105,7 +105,9 @@ async function navigate(event) {
   const { request } = event;
   const key = pageKey(request.url);
   // The request starts at once; looking in the cache happens while it is on its way.
-  const network = fetch(request).then((res) => {
+  // `no-cache`: ask the server whether the page changed (GitHub Pages lets a browser keep any file ten minutes, so
+  // a plain fetch could answer with the page from before a deploy). A 304 makes the check cheap.
+  const network = fetch(request, { cache: 'no-cache' }).then((res) => {
     remember(event, key, res);
     return res;
   });
@@ -151,7 +153,7 @@ async function cacheFirst(event, key) {
 
 async function networkFirst(event, key) {
   try {
-    const res = await fetch(event.request);
+    const res = await fetch(event.request, { cache: 'no-cache' });
     remember(event, key, res);
     return res;
   } catch (err) {

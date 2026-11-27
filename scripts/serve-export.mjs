@@ -1,4 +1,4 @@
-// Serves a static export the way GitHub Pages does, with no dependencies:
+// Serves a static export the way GitHub Pages does (paths, 404 page and cache headers), with no dependencies:
 //   node scripts/serve-export.mjs <folder> <port>
 // A path is answered by the file of that name, else <path>.html, else <path>/index.html, else 404.html with
 // status 404. The browser tests run against this, so what they prove holds for the deployed files.
@@ -54,11 +54,17 @@ createServer((req, res) => {
     file = path.join(root, '404.html');
     status = 404;
   }
-  res.writeHead(status, {
-    'Content-Type': TYPES[path.extname(file)] ?? 'application/octet-stream',
-    // Content-hashed build output never changes; everything else must be checked again, so a deploy shows at once.
-    'Cache-Control': pathname.startsWith('/_next/static/') ? 'public, max-age=31536000, immutable' : 'no-cache',
-  });
+  // As GitHub Pages does: every file may be kept ten minutes, and carries an ETag so a browser can ask whether it
+  // changed (a 304 answers "no" without sending it again). The app's worker must ask, or a deploy shows late.
+  const { size, mtimeMs } = statSync(file);
+  const etag = `"${Math.floor(mtimeMs).toString(16)}-${size.toString(16)}"`;
+  const headers = { 'Content-Type': TYPES[path.extname(file)] ?? 'application/octet-stream', 'Cache-Control': 'max-age=600', ETag: etag };
+  if (status === 200 && req.headers['if-none-match'] === etag) {
+    res.writeHead(304, headers);
+    res.end();
+    return;
+  }
+  res.writeHead(status, headers);
   if (req.method === 'HEAD') res.end();
   else createReadStream(file).pipe(res);
 }).listen(port, () => console.log(`serving ${root} on http://localhost:${port}`));
