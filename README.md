@@ -1,3 +1,11 @@
+# Accountancy Master has moved
+
+**Accountancy Master is now part of the Commerce Study Hub**: <https://smacacademy.github.io/commerce-hub/accountancy/>
+(source: <https://github.com/SMACAcademy/commerce-hub>, folder `Accountancy-Master/`). This repository is archived and
+its site only redirects every address to the same page there. The history below is kept for reference.
+
+---
+
 # Accountancy Master
 
 **Free, open-source practice for CBSE Accountancy, Class 11 and Class 12.** Open it at
